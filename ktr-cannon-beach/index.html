@@ -228,7 +228,8 @@ document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',(
   document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');RANGE=b.dataset.d;LOGN=25;render();}));
 $('more').addEventListener('click',()=>{LOGN+=50;render();});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>DATA&&render(),150)});
-fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;
+function unpack(d){if(d.purchases)return d;const out=[];(d.rows||'').split(';').filter(Boolean).forEach(x=>{const [dt,i,t,r,q]=x.split(',');out.push({d:dt.slice(0,4)+'-'+dt.slice(4,6)+'-'+dt.slice(6,8),i:d.items[+i],t:+t,r:+r,q:+q})});return {updated:d.updated,purchases:out};}
+fetch('data.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=unpack(d);d=DATA;
   const u=new Date(d.updated);$('upd').textContent='Updated '+u.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/Phoenix'})+' AZ';
   render();}).catch(()=>{$('upd').textContent='Data unavailable';$('daily').innerHTML='<div class="empty">Couldn’t load the data file. Refresh the page to try again.</div>';});
 </script>
