@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>KTR Cannon Beach Ads Revenue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap">
+<style>
+/* Layout: navy cover band (logo, tri-stripe, big two-tone headline) over white report pages — KPI strip, daily chart, package bars + item table, purchase log, SOP-style footer. Brand from KTR SOP: Montserrat Black caps, blue/yellow/red stripe, black table heads, navy callouts with yellow labels. */
+:root{
+  --navy:#0a1626; --navy-2:#0f2640; --on-navy:#ffffff; --on-navy-2:#b9c6d6;
+  --blue:#0a8fd6; --yellow:#f7c919; --red:#e0202a;
+  --bg:#f4f6f9; --panel:#ffffff; --ink:#0b0f14; --ink-2:#3d4652; --ink-3:#7d8794; --line:#e3e8ee; --row:#f7f9fb;
+  --th-bg:#0b0f14; --th-ink:#ffffff; --track:#e8edf2;
+  --font:"Montserrat",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#07101b; --panel:#0e1b2b; --ink:#f1f4f8; --ink-2:#c3ccd7; --ink-3:#8795a6; --line:#1e2f44; --row:#12223a;
+  --th-bg:#000000; --th-ink:#ffffff; --track:#1b2c42; --blue:#2aa3ea; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#07101b; --panel:#0e1b2b; --ink:#f1f4f8; --ink-2:#c3ccd7; --ink-3:#8795a6; --line:#1e2f44; --row:#12223a;
+  --th-bg:#000000; --th-ink:#ffffff; --track:#1b2c42; --blue:#2aa3ea; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:14.5px;line-height:1.5}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px}
+.stripe{display:inline-flex;gap:5px}
+.stripe i{display:block;width:62px;height:9px;transform:skewX(-28deg)}
+.stripe i:nth-child(1){background:var(--blue)}.stripe i:nth-child(2){background:var(--yellow)}.stripe i:nth-child(3){background:var(--red)}
+.stripe.sm i{width:18px;height:4px}
+.cover{background:radial-gradient(900px 420px at 92% 0%,#12406a 0%,transparent 60%),radial-gradient(600px 300px at 0% 0%,rgba(224,32,42,.14),transparent 60%),linear-gradient(180deg,var(--navy-2),var(--navy));color:var(--on-navy);padding-block:28px 34px}
+.cover .top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.cover img{width:190px;max-width:48%;height:auto;display:block}
+.eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}
+.cover .eyebrow{margin-top:34px;color:#2aa3ea}
+.cover h1{margin:8px 0 0;font-weight:900;text-transform:uppercase;font-size:clamp(34px,6.2vw,64px);line-height:.98;letter-spacing:-.01em;text-wrap:balance}
+.cover h1 span{color:#1d9be6;display:block}
+.cover .meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:14px;margin-top:16px}
+.cover p{margin:0;max-width:56ch;color:var(--on-navy-2);font-size:15px}
+.upd{font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--on-navy-2);text-align:right}
+main.wrap{padding-block:22px 40px;display:flex;flex-direction:column;gap:18px}
+.bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.seg{display:inline-flex;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);padding:3px;gap:2px}
+.seg button{font:700 12px var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);background:transparent;border:0;padding:8px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--th-bg);color:var(--th-ink)}
+.seg button:focus-visible,.more:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.span{font-size:11.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{background:var(--panel);border:1px solid var(--line);padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.kpi.lead{background:linear-gradient(160deg,var(--navy-2),var(--navy));border-color:var(--navy);color:var(--on-navy)}
+.kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.16em;font-weight:800;color:var(--blue)}
+.kpi.lead .l{color:var(--yellow)}
+.kpi .v{font-weight:900;font-size:34px;line-height:1.05;letter-spacing:-.01em}
+.kpi .s{font-size:12.5px;color:var(--ink-3)}
+.kpi.lead .s{color:var(--on-navy-2)}
+.card{background:var(--panel);border:1px solid var(--line);padding:20px;min-width:0}
+.card h2{margin:4px 0 4px;font-weight:900;font-size:22px;text-transform:uppercase;line-height:1.05;letter-spacing:-.005em}
+.card .sub{margin:0 0 14px;font-size:13.5px;color:var(--ink-2)}
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:start}
+#daily{position:relative}
+#daily svg{display:block;width:100%;height:auto}
+.tip{position:absolute;pointer-events:none;background:var(--navy);color:#fff;font-size:12.5px;padding:7px 10px;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-8px;border-left:3px solid var(--yellow)}
+.hb{display:flex;flex-direction:column;gap:10px}
+.hb .r{display:grid;grid-template-columns:minmax(0,185px) minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13px}
+.hb .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink-2);font-weight:600}
+.hb .t{height:14px;background:var(--track);border-radius:0 4px 4px 0;overflow:hidden}
+.hb .f{height:100%;background:var(--blue);border-radius:0 4px 4px 0}
+.hb .val{font-weight:800;min-width:70px;text-align:right}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--th-ink);background:var(--th-bg);font-weight:800;padding:10px}
+td{padding:9px 10px;border-bottom:1px solid var(--line);color:var(--ink-2)}
+tbody tr:nth-child(even) td{background:var(--row)}
+td.r,th.r{text-align:right}
+tr.party td:first-child{font-weight:800;color:var(--ink)}
+.pill{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;background:var(--yellow);color:#0b0f14;padding:2px 6px;margin-left:6px;vertical-align:1px}
+.more{margin-top:12px;font:800 11.5px var(--font);letter-spacing:.12em;text-transform:uppercase;background:transparent;border:2px solid var(--ink);color:var(--ink);padding:8px 14px;cursor:pointer}
+.empty{color:var(--ink-3);font-size:14px;padding:20px 0}
+footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:6px}
+@media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:minmax(0,1fr)}.upd{text-align:left}}
+@media (max-width:420px){.kpi .v{font-size:27px}.hb .r{grid-template-columns:minmax(0,105px) minmax(0,1fr) auto}.stripe i{width:40px}.cover .top .stripe{display:none}}
+@media (prefers-reduced-motion:no-preference){.hb .f{transition:width .4s ease}}
+</style>
+</head>
+<body>
+
+<header class="cover"><div class="wrap">
+  <div class="top"><img src="logo.png" alt="KTR Indoor Action Sports Playground"><div class="stripe" aria-hidden="true"><i></i><i></i><i></i></div></div>
+  <div class="eyebrow">KTR Cannon Beach · Google Ads Report</div>
+  <h1>Every booking.<span>Tracked.</span></h1>
+  <div class="meta">
+    <p>Revenue from confirmed bookings, matched to the Google Ads click that brought each family in.</p>
+    <div class="upd" id="upd">Loading…</div>
+  </div>
+</div></header>
+
+<main class="wrap">
+  <div class="bar">
+    <div class="seg" role="group" aria-label="Date range">
+      <button id="r7" data-d="7">7 days</button>
+      <button id="r30" data-d="30">30 days</button>
+      <button id="rm" data-d="month">This month</button>
+      <button id="ra" data-d="all" aria-pressed="true">All time</button>
+    </div>
+    <div class="span" id="span"></div>
+  </div>
+
+  <section class="kpis">
+    <div class="kpi lead"><div class="l">Google Ads revenue</div><div class="v num" id="k-rev">–</div><div class="s" id="k-rev-s"></div></div>
+    <div class="kpi"><div class="l">Parties booked</div><div class="v num" id="k-party">–</div><div class="s" id="k-party-s"></div></div>
+    <div class="kpi"><div class="l">Transactions</div><div class="v num" id="k-tx">–</div><div class="s" id="k-tx-s"></div></div>
+    <div class="kpi"><div class="l">Items sold</div><div class="v num" id="k-qty">–</div><div class="s" id="k-qty-s"></div></div>
+  </section>
+
+  <section class="card">
+    <div class="eyebrow">Trend</div><h2>Daily revenue.</h2><p class="sub">Google Ads revenue by booking date. Hover a day for details.</p>
+    <div id="daily"></div>
+  </section>
+
+  <div class="two">
+    <section class="card">
+      <div class="eyebrow">Packages</div><h2>What sells.</h2><p class="sub">Top items by revenue.</p>
+      <div class="hb" id="pkg"></div>
+    </section>
+    <section class="card">
+      <div class="eyebrow">Items</div><h2>What they bought.</h2><p class="sub">Every item, ranked by revenue.</p>
+      <div class="tw"><table><thead><tr><th>Item</th><th class="r">Qty</th><th class="r">Revenue</th><th class="r">Share</th></tr></thead><tbody id="items"></tbody></table></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <div class="eyebrow">Purchase log</div><h2>Recent bookings.</h2><p class="sub">Newest first.</p>
+    <div class="tw"><table><thead><tr><th>Date</th><th>Item</th><th class="r">Qty</th><th class="r">Revenue</th></tr></thead><tbody id="log"></tbody></table></div>
+    <button class="more" id="more" hidden>Show more</button>
+  </section>
+
+  <footer><span>KTR Cannon Beach — Google Ads Revenue Report</span><span class="stripe sm" aria-hidden="true"><i></i><i></i><i></i></span><span>Refreshed daily</span></footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+const money=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:0});
+const money2=v=>'$'+v.toLocaleString('en-US',{minimumFractionDigits:v%1?2:0,maximumFractionDigits:2});
+const fmtD=s=>new Date(s+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const isParty=i=>/^Birthday Party/.test(i);
+let DATA=null, RANGE='all', LOGN=25;
+
+function filter(){
+  const all=DATA.purchases; if(!all.length) return {rows:[],start:null,end:null};
+  const end=all.reduce((m,r)=>r.d>m?r.d:m,all[0].d);
+  const minD=all.reduce((m,r)=>r.d<m?r.d:m,all[0].d);
+  let start=minD;
+  const e=new Date(end+'T12:00:00');
+  if(RANGE==='7'||RANGE==='30'){const s=new Date(e);s.setDate(s.getDate()-(+RANGE-1));start=s.toISOString().slice(0,10);}
+  if(RANGE==='month'){start=end.slice(0,8)+'01';}
+  if(start<minD) start=minD;
+  return {rows:all.filter(r=>r.d>=start&&r.d<=end),start,end};
+}
+function prevRows(start,end){
+  if(RANGE==='all') return null;
+  const s=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');
+  const days=Math.round((e-s)/864e5)+1;
+  const pe=new Date(s);pe.setDate(pe.getDate()-1);const ps=new Date(pe);ps.setDate(ps.getDate()-(days-1));
+  const a=ps.toISOString().slice(0,10),b=pe.toISOString().slice(0,10);
+  if(a<DATA.purchases.reduce((m,r)=>r.d<m?r.d:m,'9999')) return null;
+  return DATA.purchases.filter(r=>r.d>=a&&r.d<=b);
+}
+function stats(rows){
+  return {rev:rows.reduce((s,r)=>s+r.r,0),tx:new Set(rows.map(r=>r.t)).size,qty:rows.reduce((s,r)=>s+r.q,0),
+    party:rows.filter(r=>isParty(r.i)).reduce((s,r)=>s+r.q,0),partyRev:rows.filter(r=>isParty(r.i)).reduce((s,r)=>s+r.r,0)};
+}
+function delta(cur,prev){
+  if(prev==null) return '';
+  if(!prev) return 'vs none prior period';
+  const p=Math.round((cur-prev)/prev*100);
+  return (p>=0?'▲ ':'▼ ')+Math.abs(p)+'% vs prior period';
+}
+function render(){
+  const {rows,start,end}=filter();
+  $('span').textContent=start?`${fmtD(start)} – ${fmtD(end)}, 2026`:'';
+  const s=stats(rows), pr=prevRows(start,end), p=pr?stats(pr):null;
+  $('k-rev').textContent=money(s.rev);
+  $('k-rev-s').textContent=p?delta(s.rev,p.rev):`Avg ${money(s.tx?s.rev/s.tx:0)} per transaction`;
+  $('k-party').textContent=s.party;
+  $('k-party-s').textContent=`${money(s.partyRev)} in party revenue`;
+  $('k-tx').textContent=s.tx; $('k-tx-s').textContent=p?delta(s.tx,p.tx):`Avg ${money(s.tx?s.rev/s.tx:0)} each`;
+  $('k-qty').textContent=s.qty; $('k-qty-s').textContent=p?delta(s.qty,p.qty):`${(s.tx?s.qty/s.tx:0).toFixed(1)} per transaction`;
+  drawDaily(rows,start,end);
+  // items
+  const m={}; rows.forEach(r=>{(m[r.i]=m[r.i]||{r:0,q:0}); m[r.i].r+=r.r; m[r.i].q+=r.q;});
+  const items=Object.entries(m).sort((a,b)=>b[1].r-a[1].r);
+  const max=items.length?items[0][1].r:1;
+  $('pkg').innerHTML=items.length?items.slice(0,8).map(([n,v])=>`<div class="r"><div class="n" title="${n}">${n}</div><div class="t"><div class="f" style="width:${(v.r/max*100).toFixed(1)}%"></div></div><div class="val num">${money(v.r)}</div></div>`).join(''):'<div class="empty">No Google Ads purchases in this range.</div>';
+  $('items').innerHTML=items.map(([n,v])=>`<tr class="${isParty(n)?'party':''}"><td>${n}${isParty(n)?'<span class="pill">Party</span>':''}</td><td class="r num">${v.q}</td><td class="r num">${money2(Math.round(v.r*100)/100)}</td><td class="r num">${s.rev?(v.r/s.rev*100).toFixed(1):0}%</td></tr>`).join('')||'<tr><td colspan="4" class="empty">No purchases in this range.</td></tr>';
+  const log=rows.slice().sort((a,b)=>b.d.localeCompare(a.d));
+  $('log').innerHTML=log.slice(0,LOGN).map(r=>`<tr><td class="num">${fmtD(r.d)}</td><td>${r.i}</td><td class="r num">${r.q}</td><td class="r num">${money2(r.r)}</td></tr>`).join('')||'<tr><td colspan="4" class="empty">No purchases in this range.</td></tr>';
+  $('more').hidden=log.length<=LOGN;
+}
+function drawDaily(rows,start,end){
+  const box=$('daily');
+  if(!start){box.innerHTML='<div class="empty">No data yet.</div>';return;}
+  const days=[];const s=new Date(start+'T12:00:00'),e=new Date(end+'T12:00:00');
+  for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1)) days.push(d.toISOString().slice(0,10));
+  const by={};rows.forEach(r=>{by[r.d]=(by[r.d]||0)+r.r});
+  const vals=days.map(d=>by[d]||0);
+  const W=1100,H=260,L=52,R=10,T=14,B=30,pw=W-L-R,ph=H-T-B;
+  const mx=Math.max(...vals,1);const step=mx>2000?500:mx>800?250:100;const top=Math.ceil(mx/step)*step;
+  const y=v=>T+ph-(v/top*ph);const bw=pw/days.length;const gap=Math.min(2,bw*.2);
+  let g='';
+  for(let v=0;v<=top;v+=step){g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="12" fill="var(--ink-3)" font-family="var(--font)">${v>=1000?'$'+(v/1000)+'K':'$'+v}</text>`;}
+  const every=Math.ceil(days.length/(box.clientWidth<500?5:10));
+  let bars='',lab='';
+  days.forEach((d,i)=>{const v=vals[i];const x=L+i*bw+gap/2;const w=Math.max(bw-gap,1);
+    if(v>0){const h=ph*(v/top);const r=Math.min(4,w/2,h);const yy=y(v);
+      bars+=`<path d="M${x},${T+ph} V${yy+r} Q${x},${yy} ${x+r},${yy} H${x+w-r} Q${x+w},${yy} ${x+w},${yy+r} V${T+ph} Z" fill="var(--blue)"/>`;}
+    bars+=`<rect class="hit" data-i="${i}" x="${L+i*bw}" y="${T}" width="${bw}" height="${ph}" fill="transparent"/>`;
+    if(i%every===0) lab+=`<text x="${L+i*bw+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="var(--ink-3)" font-family="var(--font)">${fmtD(d)}</text>`;});
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily Google Ads revenue">${g}<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--ink-3)"/>${bars}${lab}</svg><div class="tip" hidden></div>`;
+  const tip=box.querySelector('.tip'),svg=box.querySelector('svg');
+  svg.querySelectorAll('.hit').forEach(h=>{h.addEventListener('mouseenter',()=>{const i=+h.dataset.i;const n=rows.filter(r=>r.d===days[i]);
+    tip.innerHTML=`<b>${fmtD(days[i])}</b> · ${money2(Math.round(vals[i]*100)/100)}<br>${new Set(n.map(r=>r.t)).size} transactions`;
+    const sc=svg.clientWidth/W;tip.style.left=((L+i*bw+bw/2)*sc)+'px';tip.style.top=(y(vals[i])*sc)+'px';tip.hidden=false;h.setAttribute('fill','rgba(127,127,127,.12)')});
+    h.addEventListener('mouseleave',()=>{tip.hidden=true;h.setAttribute('fill','transparent')});});
+}
+document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');RANGE=b.dataset.d;LOGN=25;render();}));
+$('more').addEventListener('click',()=>{LOGN+=50;render();});
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>DATA&&render(),150)});
+fetch('data.json',{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=d;
+  const u=new Date(d.updated);$('upd').textContent='Updated '+u.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/Phoenix'})+' AZ';
+  render();}).catch(()=>{$('upd').textContent='Data unavailable';$('daily').innerHTML='<div class="empty">Couldn’t load the data file. Refresh the page to try again.</div>';});
+</script>
+
+</body>
+</html>
