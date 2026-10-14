@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>body{margin:0}img{max-width:100%}</style></head><body>
+<title>Wright's Google Ads</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Jost:wght@400;500;600&display=swap">
+<style>
+/* Layout: purple brand band with logo tile, then a single scan column: KPIs, story chart, campaign table, status, next step */
+:root{
+  --purple:#4D0053; --orange:#FF5021; --gold:#F6C101; --lime:#9CD431; --blue:#0072CA;
+  --ink:#231F20; --muted:#5f5a5c; --bg:#F5F4F2; --card:#FFFFFF; --line:#E6E2E4; --tint:#F3EEF3;
+  --band:#4D0053; --bandink:#FFFFFF; --good:#2E7D1F; --warn:#9A6B00; --bad:#C2370F;
+  --head:"Poppins","Futura","Trebuchet MS",Arial,sans-serif;
+  --body:"Jost","Futura","Century Gothic",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --ink:#F3EEF3; --muted:#C9BFCB; --bg:#1c0f1e; --card:#2a1a2d; --line:#43304a; --tint:#35223a;
+  --band:#3a0040; --good:#9CD431; --warn:#F6C101; --bad:#FF7A52; --blue:#4DA3F0; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --ink:#F3EEF3; --muted:#C9BFCB; --bg:#1c0f1e; --card:#2a1a2d; --line:#43304a; --tint:#35223a;
+  --band:#3a0040; --good:#9CD431; --warn:#F6C101; --bad:#FF7A52; --blue:#4DA3F0; color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto}
+header.band{background:var(--band);color:var(--bandink);padding-block:28px 26px;border-bottom:6px solid var(--orange)}
+.hrow{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.logo{background:#fff;border-radius:10px;padding:8px 12px;flex:0 0 auto}
+.logo img{display:block;height:74px;width:auto}
+.htext{min-width:0;flex:1 1 300px}
+h1{font-family:var(--head);font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.1;margin:0;text-wrap:balance}
+.meta{margin:6px 0 0;opacity:.85;font-size:.95rem}
+.ranges{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.ranges button{font:600 .9rem var(--body);border:1.5px solid rgba(255,255,255,.55);background:transparent;color:#fff;border-radius:999px;padding:5px 14px;cursor:pointer}
+.ranges button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#231F20}
+.ranges button:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+main{padding-block:28px 56px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.kpi .l{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi .n{font-family:var(--head);font-weight:800;font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:.88rem;color:var(--muted);margin-top:2px}
+.kpi.key{border-top:4px solid var(--orange)}
+.alert{margin-top:22px;background:var(--tint);border-left:6px solid var(--orange);border-radius:8px;padding:16px 18px}
+.alert h2{font-family:var(--head);font-size:1.1rem;margin:0 0 4px}
+.alert p{margin:0;max-width:75ch}
+section{margin-top:44px}
+section>h2{font-family:var(--head);font-weight:800;font-size:1.45rem;margin:0}
+section>.sub{color:var(--muted);margin:2px 0 16px;max-width:75ch}
+.chartbox{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 10px 6px;overflow-x:auto}
+.chartbox svg{display:block;width:100%;min-width:560px;height:auto}
+.legend{display:flex;gap:18px;flex-wrap:wrap;padding:4px 8px 8px;font-size:.9rem}
+.legend i{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:0}
+.tablebox{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:.95rem}
+th,td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:.76rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--tint)}
+tbody tr:last-child td{border-bottom:0}
+tr.total td{font-weight:600;background:var(--tint)}
+.pill{display:inline-block;font-size:.74rem;font-weight:600;padding:1px 9px;border-radius:999px;margin-left:8px;vertical-align:1px;background:var(--tint);color:var(--muted)}
+.pill.on{color:var(--good);background:transparent;border:1px solid currentColor}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
+.counts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ccard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.ccard h3{font-family:var(--head);font-size:1rem;margin:0 0 8px}
+.ccard dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:.93rem}
+.ccard dt{color:var(--muted)}
+.ccard dd{margin:0}
+.status{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.st{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;border-top:4px solid var(--line)}
+.st.ok{border-top-color:var(--lime)} .st.watch{border-top-color:var(--gold)} .st.fix{border-top-color:var(--orange)}
+.st .tag{font-size:.76rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.st h3{font-family:var(--head);font-size:1.02rem;margin:4px 0 6px}
+.st p{margin:0;font-size:.95rem;color:var(--muted)}
+.next{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.next ol{margin:0;padding-left:1.3em}
+.next li{margin-bottom:10px}
+.next li::marker{color:var(--orange);font-weight:800}
+footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem;max-width:90ch}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis .kpi:first-child{grid-column:1/-1}.counts,.status{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:no-preference){.kpi .n{transition:opacity .2s}}
+</style>
+
+<script type="application/json" id="wr-data">{"days":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-05","2026-09-06","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19","2026-09-20","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25","2026-09-26","2026-09-27","2026-09-28","2026-09-29","2026-09-30","2026-10-01","2026-10-02","2026-10-03","2026-10-04","2026-10-05","2026-10-06","2026-10-07","2026-10-08","2026-10-09","2026-10-10","2026-10-11","2026-10-12","2026-10-13"],"campaigns":[{"key":"gym","name":"Gymnastics Classes","channel":"Search","status":"Active","spend":[12.74,17.4,11.66,18.76,12.39,4.35,16.63,22.18,15.63,14.63,14.55,8.99,0.6,5.92,26.26,27.59,16.36,14.95,11.19,18.93,18.88,14.68,14.56,12.65,11.69,15.37,8.26,10.98,14.87,12.08,12.52,5.81,12.74,20.55,24.61,16.59,13.1,13.2,6.68,15.32,17.48,13.88,10.79],"clicks":[12.0,16.0,8.0,7.0,9.0,4.0,8.0,12.0,7.0,6.0,8.0,9.0,1.0,5.0,19.0,16.0,7.0,11.0,11.0,13.0,4.0,4.0,9.0,5.0,8.0,7.0,10.0,8.0,9.0,10.0,8.0,5.0,8.0,11.0,10.0,9.0,6.0,6.0,6.0,5.0,8.0,8.0,8.0],"impr":[107.0,117.0,118.0,63.0,71.0,45.0,90.0,75.0,71.0,65.0,43.0,57.0,38.0,72.0,164.0,92.0,111.0,87.0,75.0,78.0,45.0,55.0,158.0,63.0,44.0,70.0,71.0,87.0,82.0,128.0,105.0,33.0,94.0,122.0,84.0,45.0,61.0,22.0,39.0,51.0,33.0,84.0,65.0],"gconv":[0.0,7.0,3.0,4.0,4.0,3.0,6.0,8.0,3.0,3.0,5.0,6.05,0.0,3.0,12.0,7.5,8.63,5.0,7.88,6.0,2.0,2.79,3.0,2.0,5.0,4.0,3.0,4.0,6.7,3.0,0.2,0.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0],"iclass":[2,6,3,4,4,3,6,7,3,3,4,5.0,0,3,12.0,6.5,6,4,6.19,6,2,2.79,3,1.0,5,4,3,4,7,3,3,3,4,2.27,4,2,3,2.17,1.55,2,2,4.65,2.72],"purch":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,1,1.05,0.0,0.0,0.0,1,0.0,0.0,1.69,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.7,0.0,0.2,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.0,1,0.0],"pval":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,17,0.0,0.0,0.0,0.0,0.0,0.0,0.0,23.51,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,93.58,0.0,15.61,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"party":[1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,1,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]},{"key":"ninja","name":"NinjaZone","channel":"Search","status":"Active","spend":[9.71,19.59,13.5,15.27,8.1,3.95,18.59,28.0,15.23,14.77,14.11,13.71,9.94,23.55,13.84,13.35,13.48,5.12,4.52,16.54,28.0,16.92,16.01,12.37,12.41,5.23,10.02,16.37,21.61,11.98,11.64,6.38,12.23,26.33,13.87,14.63,13.75,14.66,6.95,3.97,27.99,17.61,4.38],"clicks":[11.0,13.0,11.0,13.0,10.0,7.0,11.0,17.0,8.0,8.0,10.0,12.0,10.0,14.0,12.0,8.0,7.0,5.0,7.0,19.0,11.0,8.0,10.0,10.0,10.0,5.0,8.0,14.0,11.0,10.0,9.0,7.0,10.0,15.0,11.0,5.0,9.0,7.0,3.0,4.0,10.0,10.0,3.0],"impr":[113.0,94.0,64.0,83.0,78.0,60.0,141.0,109.0,50.0,67.0,81.0,89.0,94.0,86.0,62.0,106.0,33.0,44.0,68.0,151.0,125.0,101.0,95.0,62.0,36.0,47.0,97.0,98.0,39.0,50.0,102.0,34.0,67.0,119.0,96.0,31.0,74.0,46.0,38.0,54.0,95.0,35.0,56.0],"gconv":[6.0,8.96,5.74,14.0,6.0,7.26,4.0,12.41,5.0,4.0,6.0,8.0,8.0,7.0,4.04,3.5,2.0,5.0,3.0,8.0,7.78,3.0,5.0,2.0,3.0,4.0,6.63,4.0,6.0,5.0,1.0,0.0,0.06,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03,0.0,0.0],"iclass":[4,7.96,5,10,6,3.26,4,9.41,5,4,4,6,7,6.0,4.0,3.5,2,4,3,8,6.78,3,5,2,4,3,4,4,7,6,2,5,5.43,6.27,4,2.55,3,2,0,2,3.08,2.55,1],"purch":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.05,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,1,0.0,0.0,0.0,0.0,0.0,0.06,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.03,0.0,0.0],"pval":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"party":[1,1,1,3,0.0,3,0.0,0.99,0.0,0.0,1,2,0.98,1,0.0,0.0,0.0,1,0.0,4,1,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,1,0.0,3,0.0,1,0.0,1,0.0,0.0,0.0,1,0.0]},{"key":"party","name":"Birthday Party","channel":"Search","status":"Active","spend":[13.64,12.76,13.56,23.76,10.61,4.69,12.76,10.44,8.37,11.37,10.64,4.39,4.45,10.48,10.05,1.22,17.91,13.69,18.16,4.15,18.07,8.78,5.17,1.6,0.0,10.1,20.0,8.97,10.31,7.76,10.39,10.3,9.67,11.75,9.55,9.58,10.92,12.75,6.46,3.61,17.55,8.94,8.43],"clicks":[2.0,3.0,1.0,2.0,4.0,1.0,2.0,2.0,3.0,2.0,4.0,2.0,2.0,6.0,5.0,1.0,4.0,5.0,7.0,3.0,9.0,3.0,2.0,1.0,0.0,3.0,7.0,6.0,8.0,6.0,7.0,10.0,11.0,12.0,11.0,10.0,10.0,20.0,8.0,8.0,13.0,16.0,8.0],"impr":[9.0,6.0,3.0,10.0,11.0,16.0,2.0,4.0,39.0,8.0,16.0,39.0,59.0,80.0,30.0,46.0,28.0,41.0,37.0,49.0,50.0,35.0,36.0,2.0,0.0,45.0,105.0,30.0,51.0,22.0,47.0,78.0,76.0,69.0,54.0,108.0,77.0,165.0,37.0,77.0,130.0,65.0,73.0],"gconv":[0.0,2.0,0.0,1.0,4.0,0.0,0.0,0.0,2.0,2.57,5.09,0.0,2.0,5.12,5.56,2.0,1.94,3.91,7.73,2.75,3.0,2.0,1.0,0.0,0.0,0.0,0.0,2.0,0.0,0.0,2.0,3.0,2.0,0.02,1.0,0.0,1.0,4.0,1.0,1.0,2.0,4.0,1.98],"iclass":[0.0,2,0.0,0.0,4,0.0,0.0,0.0,1,2,5.52,1,2,4,5,2.0,1.0,3.0,7,1.92,3,2,1,0.0,0.0,0.0,3,2,0.0,4,5,6.78,6.15,3.63,4,0.0,5.58,6.06,4,3.0,4.55,8.55,2.17],"purch":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.57,0.57,0.0,0.0,1.12,0.56,0.0,0.94,0.91,0.73,0.83,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.06,0.06,1,1,0.0,0.64,0.64,0.0,0.0,0.13,0.0,0.0],"pval":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,80.4,0.0,51.71,0.0,0.0,0.0,126.12,0.0,212.58,28.24,17.23,55.57,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"party":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1,0.0,0.0,0.0,0.0,0.0,0.0,2,0.0,0.0,2,3,2,0.02,1,0.0,1,4,1,1,2,4,1.98]},{"key":"display","name":"Display (2 campaigns)","channel":"Display","status":"Paused Sep 24","spend":[2.78,3.46,2.61,3.16,2.45,3.72,2.72,2.5,2.27,2.03,2.8,3.11,3.38,4.22,3.82,3.43,4.07,2.46,1.46,3.89,2.71,2.86,4.24,0.89,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"clicks":[5.0,6.0,4.0,3.0,7.0,5.0,5.0,6.0,5.0,6.0,7.0,11.0,8.0,7.0,10.0,9.0,26.0,7.0,4.0,13.0,7.0,10.0,8.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"impr":[37.0,106.0,137.0,27.0,41.0,57.0,102.0,41.0,63.0,88.0,107.0,259.0,161.0,99.0,196.0,241.0,1138.0,248.0,152.0,204.0,302.0,235.0,232.0,61.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"gconv":[0.0,0.0,0.0,1.0,2.0,0.0,1.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,2.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"iclass":[0.0,0.0,0.0,1,2,0.0,1,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,1.0,0.0,0.0,2,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"purch":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"pval":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"party":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0]}]}</script>
+
+<header class="band gut">
+  <div class="wrap">
+    <div class="hrow">
+      <div class="logo"><img src="data:image/webp;base64,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" alt="Wright's Gymnastics"></div>
+      <div class="htext">
+        <h1>Google Ads Results</h1>
+        <p class="meta">Wright's Gymnastics · Google Ads account 440-731-8484 · <span id="rangeLabel"></span></p>
+        <div class="ranges" role="group" aria-label="Date range">
+          <button type="button" data-r="7" aria-pressed="false">7 days</button>
+          <button type="button" data-r="14" aria-pressed="false">14 days</button>
+          <button type="button" data-r="30" aria-pressed="true">30 days</button>
+          <button type="button" data-r="all" aria-pressed="false">Since Sep 1</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="gut"><div class="wrap">
+
+  <div class="kpis">
+    <div class="kpi"><div class="l">Ad spend</div><div class="n" id="kSpend"></div><div class="s" id="kSpendS"></div></div>
+    <div class="kpi"><div class="l">Clicks</div><div class="n" id="kClicks"></div><div class="s" id="kClicksS"></div></div>
+    <div class="kpi key"><div class="l">Sent to iClassPro sign-up</div><div class="n" id="kSent"></div><div class="s" id="kSentS"></div></div>
+    <div class="kpi"><div class="l">Tracked purchases</div><div class="n" id="kPurch"></div><div class="s" id="kPurchS"></div></div>
+    <div class="kpi"><div class="l">Book Party clicks</div><div class="n" id="kParty"></div><div class="s" id="kPartyS"></div></div>
+  </div>
+
+  <div class="alert">
+    <h2>The class campaigns didn't stop working on Oct 1. What Google counts changed.</h2>
+    <p>Through Sep 30, Google counted every parent who clicked through to iClassPro as a conversion. From Oct 1, Gymnastics and NinjaZone count only completed purchases, and the Birthday Party campaign counts the Book Party button. Parents still reach iClassPro every day, but fewer than in late September (see chart).</p>
+  </div>
+
+  <section>
+    <h2>Class campaigns: parents sent to sign-up vs. what Google counts</h2>
+    <p class="sub">Gymnastics Classes + NinjaZone, daily, Sep 1 – Oct 13. The gap after Oct 1 is the goal change, not lost traffic.</p>
+    <div class="chartbox">
+      <div class="legend">
+        <span><i style="background:var(--purple)"></i>Parents sent to iClassPro</span>
+        <span><i style="background:var(--orange)"></i>Conversions Google counts</span>
+        <span><i style="background:var(--lime)"></i>Tracked purchases</span>
+      </div>
+      <svg id="chart" viewBox="0 0 1000 300" role="img" aria-label="Daily class-campaign sign-up clicks, counted conversions and purchases"></svg>
+    </div>
+  </section>
+
+  <section>
+    <h2>By campaign</h2>
+    <p class="sub" id="tableSub"></p>
+    <div class="tablebox"><table>
+      <thead><tr><th>Campaign</th><th>Spend</th><th>Clicks</th><th>CPC</th><th>Sent to sign-up</th><th>Cost each</th><th>Purchases</th><th>Party clicks</th><th>Google conv.</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <h2>What each campaign optimizes toward</h2>
+    <p class="sub">Search impression share, last 14 days, and the conversion each campaign now bids toward.</p>
+    <div class="counts">
+      <div class="ccard"><h3><span class="dot" style="background:var(--purple)"></span>Gymnastics Classes</h3><dl>
+        <dt>Counts now</dt><dd>Purchases only (since Oct 1)</dd>
+        <dt>Before</dt><dd>Clicks to iClassPro</dd>
+        <dt>Bidding</dt><dd>Maximize conversion value</dd>
+        <dt>Shown for</dt><dd>35% of eligible searches</dd>
+        <dt>Lost to</dt><dd>Ad rank 46%, budget 18%</dd></dl></div>
+      <div class="ccard"><h3><span class="dot" style="background:var(--blue)"></span>NinjaZone</h3><dl>
+        <dt>Counts now</dt><dd>Purchases only (since Oct 1)</dd>
+        <dt>Before</dt><dd>Clicks to iClassPro</dd>
+        <dt>Bidding</dt><dd>Maximize conversion value</dd>
+        <dt>Shown for</dt><dd>32% of eligible searches</dd>
+        <dt>Lost to</dt><dd>Ad rank 51%, budget 18%</dd></dl></div>
+      <div class="ccard"><h3><span class="dot" style="background:var(--orange)"></span>Birthday Party</h3><dl>
+        <dt>Counts now</dt><dd>Book Party button click</dd>
+        <dt>Before</dt><dd>Clicks to iClassPro + purchases</dd>
+        <dt>Bidding</dt><dd>Maximize conversions</dd>
+        <dt>Shown for</dt><dd>32% of eligible searches</dd>
+        <dt>Lost to</dt><dd>Ad rank 38%, budget 30%</dd></dl></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Status</h2>
+    <p class="sub">What's working, what to watch, and what needs a decision.</p>
+    <div class="status">
+      <div class="st ok"><span class="tag">Working</span><h3>Traffic is cheap and steady</h3><p>About $1.54 a click across search over the last 30 days, and parents reach iClassPro from every campaign every day.</p></div>
+      <div class="st watch"><span class="tag">Watch</span><h3>Fewer parents reaching sign-up</h3><p>Class campaigns sent about 9 parents a day to iClassPro in late September and about 6 a day in October, on similar spend.</p></div>
+      <div class="st fix"><span class="tag">Needs a decision</span><h3>Too few purchases to bid on</h3><p>Class campaigns now bid only on purchases: about 2 in 13 days, most with no dollar value. Google can't learn from that little data.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Next steps</h2>
+    <div class="next"><ol>
+      <li><strong>Give the class campaigns enough signal.</strong> Keep purchases as the goal but add the iClassPro click back as a primary goal with a small value, until purchases reach about 30 a month.</li>
+      <li><strong>Send real purchase values.</strong> Most tracked purchases arrive at $0, so "maximize conversion value" has nothing to maximize.</li>
+      <li><strong>Report party results as button clicks.</strong> Book Party clicks are intent, not bookings. iClassPro doesn't report party bookings to Google.</li>
+    </ol></div>
+  </section>
+
+  <footer>Source: Google Ads account 440-731-8484 via Windsor.ai, pulled Oct 14, 2026, data through Oct 13. "Sent to iClassPro sign-up" is the GMB_Clicked_iClassPro action; "Tracked purchases" is the iClassPro purchase action; "Party clicks" is the Book Party Click action. All counts use Google's all-conversions column, so they don't change when a goal is switched on or off. Fractional values are Google's data-driven attribution, rounded. The two display campaigns were paused Sep 24 and are included in totals.</footer>
+
+</div></main>
+
+<script>
+(function(){
+  var D = JSON.parse(document.getElementById('wr-data').textContent);
+  var days = D.days, n = days.length, C = D.campaigns;
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function lab(s){var p=s.split('-');return MON[+p[1]-1]+' '+(+p[2]);}
+  function sum(a,i0,i1){var t=0;for(var i=i0;i<=i1;i++)t+=a[i];return t;}
+  function $(id){return document.getElementById(id);}
+  function money(v,d){return '$'+v.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});}
+  function num(v){return Math.round(v).toLocaleString('en-US');}
+  var COLORS={gym:'var(--purple)',ninja:'var(--blue)',party:'var(--orange)',display:'var(--muted)'};
+
+  function render(r){
+    var i1=n-1, i0 = r==='all'?0:Math.max(0,n-(+r));
+    var len=i1-i0+1, p1=i0-1, p0=Math.max(0,i0-len), hasPrev = r!=='all' && p0<=p1 && (p1-p0+1)===len;
+    $('rangeLabel').textContent = lab(days[i0])+' – '+lab(days[i1])+', 2026';
+    var T={spend:0,clicks:0,iclass:0,purch:0,pval:0,party:0,gconv:0}, P={spend:0,clicks:0,iclass:0,purch:0,party:0};
+    var rows='';
+    C.forEach(function(c){
+      var s={};for(var k in T){s[k]=sum(c[k],i0,i1);T[k]+=s[k];}
+      if(hasPrev) for(var k2 in P){P[k2]+=sum(c[k2],p0,p1);}
+      if(s.spend===0 && s.clicks===0) return;
+      var pill = c.status==='Active'?'<span class="pill on">Active</span>':'<span class="pill">'+c.status+'</span>';
+      rows+='<tr><td><span class="dot" style="background:'+COLORS[c.key]+'"></span>'+c.name+pill+'</td><td>'+money(s.spend,2)+'</td><td>'+num(s.clicks)+'</td><td>'+(s.clicks?money(s.spend/s.clicks,2):'–')+'</td><td>'+num(s.iclass)+'</td><td>'+(s.iclass>=1?money(s.spend/s.iclass,2):'–')+'</td><td>'+(s.purch?s.purch.toFixed(1):'0')+'</td><td>'+num(s.party)+'</td><td>'+(Math.round(s.gconv*10)/10)+'</td></tr>';
+    });
+    rows+='<tr class="total"><td>Total</td><td>'+money(T.spend,2)+'</td><td>'+num(T.clicks)+'</td><td>'+money(T.spend/T.clicks,2)+'</td><td>'+num(T.iclass)+'</td><td>'+money(T.spend/T.iclass,2)+'</td><td>'+T.purch.toFixed(1)+'</td><td>'+num(T.party)+'</td><td>'+(Math.round(T.gconv*10)/10)+'</td></tr>';
+    $('tbody').innerHTML=rows;
+    $('tableSub').textContent='Totals for '+lab(days[i0])+' – '+lab(days[i1])+'. Google conv. is what Google Ads reports as Conversions, which changed definition on Oct 1.';
+    function delta(cur,prev){ if(!hasPrev||!prev) return ''; var d=(cur-prev)/prev*100; return ' · '+(d>=0?'+':'')+Math.round(d)+'% vs prior '+len+' days'; }
+    $('kSpend').textContent=money(T.spend,0); $('kSpendS').textContent=(hasPrev?'Prior '+len+' days '+money(P.spend,0):'All campaigns');
+    $('kClicks').textContent=num(T.clicks); $('kClicksS').textContent=money(T.spend/T.clicks,2)+' per click'+delta(T.clicks,P.clicks);
+    $('kSent').textContent=num(T.iclass); $('kSentS').textContent=money(T.spend/T.iclass,2)+' each'+delta(T.iclass,P.iclass);
+    $('kPurch').textContent=T.purch.toFixed(1); $('kPurchS').textContent=money(T.pval,0)+' value reported to Google';
+    $('kParty').textContent=num(T.party); $('kPartyS').textContent='Intent, not confirmed bookings';
+  }
+
+  function chart(){
+    var g=C[0], z=C[1], W=1000,H=300,L=40,R=12,Tp=14,B=34, pw=W-L-R, ph=H-Tp-B;
+    var sent=[],cnt=[],pur=[];
+    for(var i=0;i<n;i++){sent.push(g.iclass[i]+z.iclass[i]);cnt.push(g.gconv[i]+z.gconv[i]);pur.push(g.purch[i]+z.purch[i]);}
+    var max=Math.max.apply(null,sent.concat(cnt)); max=Math.ceil(max/5)*5;
+    var bw=pw/n, x=function(i){return L+i*bw+bw/2;}, y=function(v){return Tp+ph-(v/max)*ph;};
+    var s='';
+    for(var t=0;t<=max;t+=5){s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(t)+'" y2="'+y(t)+'" stroke="var(--line)" stroke-width="1"/><text x="'+(L-8)+'" y="'+(y(t)+4)+'" text-anchor="end" font-size="12" fill="var(--muted)" font-family="Jost,Arial,sans-serif">'+t+'</text>';}
+    var oct=days.indexOf('2026-10-01'), xo=L+oct*bw;
+    s+='<rect x="'+xo+'" y="'+Tp+'" width="'+(W-R-xo)+'" height="'+ph+'" fill="var(--tint)"/>';
+    for(var i=0;i<n;i++){ s+='<rect x="'+(x(i)-bw*0.34)+'" y="'+y(sent[i])+'" width="'+(bw*0.68)+'" height="'+(Tp+ph-y(sent[i]))+'" rx="2" fill="var(--purple)" opacity="0.85"><title>'+lab(days[i])+': '+sent[i].toFixed(1)+' sent to iClassPro</title></rect>'; }
+    var d='';for(var i=0;i<n;i++){d+=(i?'L':'M')+x(i).toFixed(1)+' '+y(cnt[i]).toFixed(1);}
+    s+='<path d="'+d+'" fill="none" stroke="var(--orange)" stroke-width="2.5" stroke-linejoin="round"/>';
+    for(var i=0;i<n;i++){ if(pur[i]>0.5) s+='<circle cx="'+x(i)+'" cy="'+y(pur[i])+'" r="5" fill="var(--lime)" stroke="var(--card)" stroke-width="1.5"><title>'+lab(days[i])+': '+pur[i].toFixed(1)+' purchases</title></circle>'; }
+    s+='<line x1="'+xo+'" x2="'+xo+'" y1="'+Tp+'" y2="'+(Tp+ph)+'" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="4 4"/>';
+    s+='<text x="'+(xo+8)+'" y="'+(Tp+16)+'" font-size="13" font-weight="600" fill="var(--ink)" font-family="Jost,Arial,sans-serif">Oct 1: goal switched to purchases only</text>';
+    [0,7,14,21,30,37,42].forEach(function(i){ s+='<text x="'+x(i)+'" y="'+(H-12)+'" text-anchor="middle" font-size="12" fill="var(--muted)" font-family="Jost,Arial,sans-serif">'+lab(days[i])+'</text>'; });
+    $('chart').innerHTML=s;
+  }
+
+  var btns=document.querySelectorAll('.ranges button');
+  btns.forEach(function(b){b.addEventListener('click',function(){btns.forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});render(b.getAttribute('data-r'));});});
+  chart(); render('30');
+})();
+</script>
+
+</body></html>
