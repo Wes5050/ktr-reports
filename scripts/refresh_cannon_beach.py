@@ -16,6 +16,7 @@ import json
 import os
 import sys
 import urllib.parse
+import urllib.error
 import urllib.request
 from collections import defaultdict
 from zoneinfo import ZoneInfo
@@ -47,7 +48,10 @@ def pull(connector, account, fields, date_from, date_to):
     try:
         with urllib.request.urlopen(req, timeout=180) as r:
             body = json.loads(r.read().decode())
-    except Exception as e:  # never print the URL: it carries the key
+    except urllib.error.HTTPError as e:  # never print the URL: it carries the key
+        detail = e.read().decode(errors="replace")[:800].replace(KEY, "***")
+        fail(f"Windsor request failed for {connector} ({', '.join(fields)}): HTTP {e.code}: {detail}")
+    except Exception as e:
         fail(f"Windsor request failed for {connector}: {type(e).__name__}: {e}".replace(KEY, "***"))
     rows = body.get("data") if isinstance(body, dict) else body
     if not isinstance(rows, list):
