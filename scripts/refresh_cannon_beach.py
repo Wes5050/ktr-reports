@@ -41,7 +41,7 @@ def pull(connector, account, fields, date_from, date_to):
         "date_from": date_from,
         "date_to": date_to,
         "fields": ",".join(fields),
-        "select_accounts": f"{connector}__{account}",
+        "select_accounts": account,
     }
     url = f"{API}/{connector}?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"User-Agent": "ktr-reports-refresh"})
