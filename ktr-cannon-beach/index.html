@@ -79,7 +79,11 @@ tr.party td:first-child{font-weight:800;color:var(--ink)}
 .more{margin-top:12px;font:800 11.5px var(--font);letter-spacing:.12em;text-transform:uppercase;background:transparent;border:2px solid var(--ink);color:var(--ink);padding:8px 14px;cursor:pointer}
 .empty{color:var(--ink-3);font-size:14px;padding:20px 0}
 footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);padding-top:6px}
-@media (max-width:860px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:minmax(0,1fr)}.upd{text-align:left}}
+.kpis.k3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.kpi.spend{border-top:4px solid var(--red)}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px;font-size:12px;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.1em}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:6px;vertical-align:-1px}
+@media (max-width:860px){.kpis,.kpis.k3{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:minmax(0,1fr)}.upd{text-align:left}}
 @media (max-width:420px){.kpi .v{font-size:27px}.hb .r{grid-template-columns:minmax(0,105px) minmax(0,1fr) auto}.stripe i{width:40px}.cover .top .stripe{display:none}}
 @media (prefers-reduced-motion:no-preference){.hb .f{transition:width .4s ease}}
 </style>
@@ -91,7 +95,7 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;fl
   <div class="eyebrow">KTR Cannon Beach · Google Ads Report</div>
   <h1>Every booking.<span>Tracked.</span></h1>
   <div class="meta">
-    <p>Revenue from confirmed bookings, matched to the Google Ads click that brought each family in.</p>
+    <p>Revenue from confirmed bookings, matched to the Google Ads click that brought each family in, set against what those ads cost.</p>
     <div class="upd" id="upd">Loading…</div>
   </div>
 </div></header>
@@ -113,10 +117,16 @@ footer{display:flex;justify-content:space-between;align-items:center;gap:12px;fl
     <div class="kpi"><div class="l">Transactions</div><div class="v num" id="k-tx">–</div><div class="s" id="k-tx-s"></div></div>
     <div class="kpi"><div class="l">Items sold</div><div class="v num" id="k-qty">–</div><div class="s" id="k-qty-s"></div></div>
   </section>
+  <section class="kpis k3">
+    <div class="kpi spend"><div class="l">Google Ads spend</div><div class="v num" id="k-spend">–</div><div class="s" id="k-spend-s"></div></div>
+    <div class="kpi"><div class="l">Return on ad spend</div><div class="v num" id="k-roas">–</div><div class="s" id="k-roas-s"></div></div>
+    <div class="kpi"><div class="l">Cost per booking</div><div class="v num" id="k-cpb">–</div><div class="s" id="k-cpb-s"></div></div>
+  </section>
 
   <section class="card">
-    <div class="eyebrow">Trend</div><h2>Daily revenue.</h2><p class="sub">Google Ads revenue by booking date. Hover a day for details.</p>
+    <div class="eyebrow">Trend</div><h2>Daily revenue vs. spend.</h2><p class="sub">Google Ads revenue by booking date, with what the ads cost that day. Hover a day for details.</p>
     <div id="daily"></div>
+    <div class="legend"><span><i style="background:var(--blue)"></i>Revenue</span><span><i style="background:var(--red);height:4px;vertical-align:3px"></i>Ad spend</span></div>
   </section>
 
   <div class="two">
@@ -149,7 +159,7 @@ let DATA=null, RANGE='all', LOGN=25;
 
 function filter(){
   const all=DATA.purchases; if(!all.length) return {rows:[],start:null,end:null};
-  const end=all.reduce((m,r)=>r.d>m?r.d:m,all[0].d);
+  const end=DATA.end;
   const minD=all.reduce((m,r)=>r.d<m?r.d:m,all[0].d);
   let start=minD;
   const e=new Date(end+'T12:00:00');
@@ -167,6 +177,7 @@ function prevRows(start,end){
   if(a<DATA.purchases.reduce((m,r)=>r.d<m?r.d:m,'9999')) return null;
   return DATA.purchases.filter(r=>r.d>=a&&r.d<=b);
 }
+function spendIn(a,b){let s=0,c=0,n=0;for(const k in DATA.spend){if(k>=a&&k<=b){s+=DATA.spend[k].s;c+=DATA.spend[k].c;n++;}}return {s,c,n};}
 function stats(rows){
   return {rev:rows.reduce((s,r)=>s+r.r,0),tx:new Set(rows.map(r=>r.t)).size,qty:rows.reduce((s,r)=>s+r.q,0),
     party:rows.filter(r=>isParty(r.i)).reduce((s,r)=>s+r.q,0),partyRev:rows.filter(r=>isParty(r.i)).reduce((s,r)=>s+r.r,0)};
@@ -187,6 +198,15 @@ function render(){
   $('k-party-s').textContent=`${money(s.partyRev)} in party revenue`;
   $('k-tx').textContent=s.tx; $('k-tx-s').textContent=p?delta(s.tx,p.tx):`Avg ${money(s.tx?s.rev/s.tx:0)} each`;
   $('k-qty').textContent=s.qty; $('k-qty-s').textContent=p?delta(s.qty,p.qty):`${(s.tx?s.qty/s.tx:0).toFixed(1)} per transaction`;
+  const sp=spendIn(start,end);
+  if(sp.n){
+    $('k-spend').textContent=money(sp.s);
+    $('k-spend-s').textContent=`${sp.c.toLocaleString('en-US')} clicks · ${money2(Math.round(sp.s/Math.max(sp.c,1)*100)/100)} per click`;
+    $('k-roas').textContent=(s.rev/sp.s).toFixed(1)+'×';
+    $('k-roas-s').textContent=`${money2(Math.round(s.rev/sp.s*100)/100)} back for every $1 spent`;
+    $('k-cpb').textContent=s.tx?money(sp.s/s.tx):'–';
+    $('k-cpb-s').textContent=s.tx?`Ad spend ÷ ${s.tx} transactions`:'No bookings in this range';
+  }else{['k-spend','k-roas','k-cpb'].forEach(id=>$(id).textContent='–');['k-spend-s','k-roas-s','k-cpb-s'].forEach(id=>$(id).textContent='No spend data for this range');}
   drawDaily(rows,start,end);
   // items
   const m={}; rows.forEach(r=>{(m[r.i]=m[r.i]||{r:0,q:0}); m[r.i].r+=r.r; m[r.i].q+=r.q;});
@@ -205,8 +225,9 @@ function drawDaily(rows,start,end){
   for(let d=new Date(s);d<=e;d.setDate(d.getDate()+1)) days.push(d.toISOString().slice(0,10));
   const by={};rows.forEach(r=>{by[r.d]=(by[r.d]||0)+r.r});
   const vals=days.map(d=>by[d]||0);
+  const spv=days.map(d=>DATA.spend[d]?DATA.spend[d].s:null);
   const W=1100,H=260,L=52,R=10,T=14,B=30,pw=W-L-R,ph=H-T-B;
-  const mx=Math.max(...vals,1);const step=mx>2000?500:mx>800?250:100;const top=Math.ceil(mx/step)*step;
+  const mx=Math.max(...vals,...spv.map(v=>v||0),1);const step=mx>2000?500:mx>800?250:100;const top=Math.ceil(mx/step)*step;
   const y=v=>T+ph-(v/top*ph);const bw=pw/days.length;const gap=Math.min(2,bw*.2);
   let g='';
   for(let v=0;v<=top;v+=step){g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="12" fill="var(--ink-3)" font-family="var(--font)">${v>=1000?'$'+(v/1000)+'K':'$'+v}</text>`;}
@@ -217,10 +238,12 @@ function drawDaily(rows,start,end){
       bars+=`<path d="M${x},${T+ph} V${yy+r} Q${x},${yy} ${x+r},${yy} H${x+w-r} Q${x+w},${yy} ${x+w},${yy+r} V${T+ph} Z" fill="var(--blue)"/>`;}
     bars+=`<rect class="hit" data-i="${i}" x="${L+i*bw}" y="${T}" width="${bw}" height="${ph}" fill="transparent"/>`;
     if(i%every===0) lab+=`<text x="${L+i*bw+bw/2}" y="${H-8}" text-anchor="middle" font-size="12" fill="var(--ink-3)" font-family="var(--font)">${fmtD(d)}</text>`;});
-  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily Google Ads revenue">${g}<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--ink-3)"/>${bars}${lab}</svg><div class="tip" hidden></div>`;
+  let pts=[];days.forEach((d,i)=>{if(spv[i]!=null)pts.push(`${(L+i*bw+bw/2).toFixed(1)},${y(spv[i]).toFixed(1)}`);});
+  const line=pts.length?`<polyline points="${pts.join(' ')}" fill="none" stroke="var(--red)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" pointer-events="none"/>`:'';
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Daily Google Ads revenue and spend">${g}<line x1="${L}" x2="${W-R}" y1="${T+ph}" y2="${T+ph}" stroke="var(--ink-3)"/>${bars}${line}${lab}</svg><div class="tip" hidden></div>`;
   const tip=box.querySelector('.tip'),svg=box.querySelector('svg');
   svg.querySelectorAll('.hit').forEach(h=>{h.addEventListener('mouseenter',()=>{const i=+h.dataset.i;const n=rows.filter(r=>r.d===days[i]);
-    tip.innerHTML=`<b>${fmtD(days[i])}</b> · ${money2(Math.round(vals[i]*100)/100)}<br>${new Set(n.map(r=>r.t)).size} transactions`;
+    tip.innerHTML=`<b>${fmtD(days[i])}</b> · ${money2(Math.round(vals[i]*100)/100)}<br>${new Set(n.map(r=>r.t)).size} transactions`+(spv[i]!=null?`<br>Ad spend ${money2(Math.round(spv[i]*100)/100)}`:'');
     const sc=svg.clientWidth/W;tip.style.left=((L+i*bw+bw/2)*sc)+'px';tip.style.top=(y(vals[i])*sc)+'px';tip.hidden=false;h.setAttribute('fill','rgba(127,127,127,.12)')});
     h.addEventListener('mouseleave',()=>{tip.hidden=true;h.setAttribute('fill','transparent')});});
 }
@@ -228,7 +251,11 @@ document.querySelectorAll('.seg button').forEach(b=>b.addEventListener('click',(
   document.querySelectorAll('.seg button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true');RANGE=b.dataset.d;LOGN=25;render();}));
 $('more').addEventListener('click',()=>{LOGN+=50;render();});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>DATA&&render(),150)});
-function unpack(d){if(d.purchases)return d;const out=[];(d.rows||'').split(';').filter(Boolean).forEach(x=>{const [dt,i,t,r,q]=x.split(',');out.push({d:dt.slice(0,4)+'-'+dt.slice(4,6)+'-'+dt.slice(6,8),i:d.items[+i],t:+t,r:+r,q:+q})});return {updated:d.updated,purchases:out};}
+const iso=dt=>dt.slice(0,4)+'-'+dt.slice(4,6)+'-'+dt.slice(6,8);
+function unpack(d){const out=[];(d.rows||'').split(';').filter(Boolean).forEach(x=>{const [dt,i,t,r,q]=x.split(',');out.push({d:iso(dt),i:d.items[+i],t:+t,r:+r,q:+q})});
+  const spend={};(d.spend||'').split(';').filter(Boolean).forEach(x=>{const [dt,s,c]=x.split(',');spend[iso(dt)]={s:+s,c:+c}});
+  let end=out.reduce((m,r)=>r.d>m?r.d:m,'');for(const k in spend) if(k>end) end=k;
+  return {updated:d.updated,purchases:out,spend,end};}
 fetch('data.json?v='+Date.now(),{cache:'no-store'}).then(r=>r.json()).then(d=>{DATA=unpack(d);d=DATA;
   const u=new Date(d.updated);$('upd').textContent='Updated '+u.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZone:'America/Phoenix'})+' AZ';
   render();}).catch(()=>{$('upd').textContent='Data unavailable';$('daily').innerHTML='<div class="empty">Couldn’t load the data file. Refresh the page to try again.</div>';});
