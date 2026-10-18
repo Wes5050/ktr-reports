@@ -3,6 +3,8 @@ name: Refresh Cannon Beach dashboard
 on:
   schedule:
     - cron: "45 13 * * *"   # 6:45 AM Arizona time, every day
+    - cron: "20 15 * * *"   # 8:20 AM backup (GitHub sometimes skips scheduled runs)
+    - cron: "35 18 * * *"   # 11:35 AM backup
   workflow_dispatch: {}     # "Run workflow" button for manual runs
 
 permissions:
