@@ -14,6 +14,8 @@ Wright's rules:
 - All conversion counts use all_conversions, so switching a goal on/off in
   Google Ads does not change the dashboard. "gconv" is Google's own Conversions
   column, which does change with goal settings (shown for reference).
+- "By area" uses Google's geographic report (town the searcher was in). It is
+  NOT the Wright's location the family enrolled at; iClassPro doesn't send that.
 - The page is client-facing: nothing written here may name the data tool.
 """
 import datetime as dt
@@ -142,6 +144,28 @@ def main():
         if a[1]:
             s["pval"][i] += num(r.get("all_conversions_value"))
 
+    # By area: the town the parent was searching from (not the gym they enroll at).
+    area_metrics = ["spend", "clicks", "iclass", "party", "purch", "pval"]
+    areas = defaultdict(lambda: {m: [0.0] * len(days) for m in area_metrics})
+    for r in pull(["date", "city", "spend", "clicks"], d_from, d_to):
+        d = iso(r["date"])
+        if d not in idx:
+            fail(f"Row outside the requested window: {d}")
+        a_ = areas[(r.get("city") or "").strip() or "Unknown"]
+        a_["spend"][idx[d]] += num(r.get("spend"))
+        a_["clicks"][idx[d]] += num(r.get("clicks"))
+    for r in pull(["date", "city", "conversion_action_name", "all_conversions", "all_conversions_value"], d_from, d_to):
+        act = ACTIONS.get((r.get("conversion_action_name") or "").strip())
+        if not act:
+            continue
+        d = iso(r["date"])
+        if d not in idx:
+            fail(f"Row outside the requested window: {d}")
+        a_ = areas[(r.get("city") or "").strip() or "Unknown"]
+        a_[act[0]][idx[d]] += num(r.get("all_conversions"))
+        if act[1]:
+            a_["pval"][idx[d]] += num(r.get("all_conversions_value"))
+
     is_from = (yesterday - dt.timedelta(days=13)).isoformat()
     share = {}
     for r in pull(["campaign", "search_impression_share", "search_budget_lost_impression_share",
@@ -181,12 +205,19 @@ def main():
     if [c["key"] for c in campaigns[:2]] != ["gym", "ninja"]:
         fail("Gymnastics Classes / NinjaZone rows missing; the class chart needs both")
 
+    area_spend = sum(sum(v["spend"]) for v in areas.values())
+    if total_spend and area_spend < total_spend * 0.5:  # town report normally covers nearly all spend
+        fail(f"Town data covers only ${area_spend:,.2f} of ${total_spend:,.2f} spend; leaving dashboard unchanged")
+
     out = {
         "updated": now.replace(microsecond=0).isoformat(),
         "through": d_to,
         "share": share,
         "days": days,
         "campaigns": campaigns,
+        "areas": [{"name": n, **{m: [round(x, 2) for x in v[m]] for m in area_metrics}}
+                  for n, v in sorted(areas.items(), key=lambda kv: -sum(kv[1]["spend"]))
+                  if any(sum(v[m]) for m in area_metrics)],
     }
     with open(DATA, "w") as f:
         json.dump(out, f, separators=(",", ":"))

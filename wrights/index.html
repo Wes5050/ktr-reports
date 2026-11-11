@@ -139,6 +139,15 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:v
   </section>
 
   <section>
+    <h2>By area</h2>
+    <p class="sub">Where parents were searching from when they clicked an ad. This is the parent's town, not the Wright's location they enrolled at. <span id="areaSub"></span></p>
+    <div class="tablebox"><table>
+      <thead><tr><th>Searcher's town</th><th>Spend</th><th>Clicks</th><th>Sent to sign-up</th><th>Cost each</th><th>Party clicks</th><th>Purchases</th></tr></thead>
+      <tbody id="abody"></tbody>
+    </table></div>
+  </section>
+
+  <section>
     <h2>What each campaign optimizes toward</h2>
     <p class="sub">Search impression share, last 14 days, and the conversion each campaign now bids toward.</p>
     <div class="counts">
@@ -214,6 +223,15 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:v
     });
     rows+='<tr class="total"><td>Total</td><td>'+money(T.spend,2)+'</td><td>'+num(T.clicks)+'</td><td>'+money(T.spend/T.clicks,2)+'</td><td>'+num(T.iclass)+'</td><td>'+money(T.spend/T.iclass,2)+'</td><td>'+T.purch.toFixed(1)+'</td><td>'+num(T.party)+'</td><td>'+(Math.round(T.gconv*10)/10)+'</td></tr>';
     $('tbody').innerHTML=rows;
+    var A=(D.areas||[]).map(function(a){var s={name:a.name};['spend','clicks','iclass','party','purch','pval'].forEach(function(k){s[k]=sum(a[k],i0,i1);});return s;})
+      .filter(function(s){return s.spend>0||s.clicks>0||s.iclass>0||s.party>0||s.purch>0;})
+      .sort(function(x,y){return y.spend-x.spend;});
+    var TOP=10, shown=A.slice(0,TOP), rest=A.slice(TOP), AT={spend:0,clicks:0,iclass:0,party:0,purch:0,pval:0};
+    A.forEach(function(s){for(var k in AT)AT[k]+=s[k];});
+    if(rest.length){var o={name:'Other towns ('+rest.length+')',spend:0,clicks:0,iclass:0,party:0,purch:0,pval:0};rest.forEach(function(s){for(var k in AT)o[k]+=s[k];});shown.push(o);}
+    function arow(s,cls){return '<tr'+(cls?' class="'+cls+'"':'')+'><td>'+s.name+'</td><td>'+money(s.spend,2)+'</td><td>'+num(s.clicks)+'</td><td>'+num(s.iclass)+'</td><td>'+(s.iclass>=1?money(s.spend/s.iclass,2):'–')+'</td><td>'+num(s.party)+'</td><td>'+(s.purch?s.purch.toFixed(1):'0')+(s.pval>=1?' <span style="color:var(--muted)">('+money(s.pval,0)+')</span>':'')+'</td></tr>';}
+    $('abody').innerHTML=A.length?shown.map(function(s){return arow(s);}).join('')+arow({name:'Total',spend:AT.spend,clicks:AT.clicks,iclass:AT.iclass,party:AT.party,purch:AT.purch,pval:AT.pval},'total'):'<tr><td colspan="7">No town data for this range yet.</td></tr>';
+    $('areaSub').textContent='Totals for '+lab(days[i0])+' – '+lab(days[i1])+'; a few clicks Google can\'t place are left out.';
     $('tableSub').textContent='Totals for '+lab(days[i0])+' – '+lab(days[i1])+'. Google conv. is what Google Ads reports as Conversions, which changed definition on Oct 1.';
     function delta(cur,prev){ if(!hasPrev||!prev) return ''; var d=(cur-prev)/prev*100; return ' · '+(d>=0?'+':'')+Math.round(d)+'% vs prior '+len+' days'; }
     $('kSpend').textContent=money(T.spend,0); $('kSpendS').textContent=(hasPrev?'Prior '+len+' days '+money(P.spend,0):'All campaigns');
