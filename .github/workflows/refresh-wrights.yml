@@ -1,0 +1,44 @@
+name: Refresh Wright's dashboard
+
+on:
+  schedule:
+    - cron: "55 13 * * *"   # 6:55 AM Arizona time, every day
+    - cron: "30 15 * * *"   # 8:30 AM backup (GitHub sometimes skips scheduled runs)
+    - cron: "45 18 * * *"   # 11:45 AM backup
+  workflow_dispatch: {}     # "Run workflow" button for manual runs
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-wrights
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull Google Ads data, check it, update data.json
+        env:
+          WINDSOR_API_KEY: ${{ secrets.WINDSOR_API_KEY }}
+        run: python scripts/refresh_wrights.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name "KTR dashboard refresh"
+          git config user.email "actions@users.noreply.github.com"
+          git add wrights/data.json
+          if git diff --cached --quiet; then
+            echo "No change to commit"
+          else
+            git commit -m "Wright's data refresh $(TZ=America/Phoenix date +%F)"
+            git pull --rebase origin main
+            git push
+          fi
