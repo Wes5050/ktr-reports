@@ -1,47 +1,48 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Wright's Google Ads</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&family=Jost:wght@400;500;600&display=swap">
+<link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+<link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap">
 <style>
-/* Layout: purple brand band with logo tile, then a single scan column: KPIs, story chart, campaign table, status, next step */
+/* One Konnector look (navy band, One Blue accents, Satoshi) with Wright's touches: logo tile, orange stripe, orange/gold in party + watch. Layout: band with logo tile, then a single scan column: KPIs, story chart, campaign table, status, next step */
 :root{
-  --purple:#4D0053; --orange:#FF5021; --gold:#F6C101; --lime:#9CD431; --blue:#0072CA;
-  --ink:#231F20; --muted:#5f5a5c; --bg:#F5F4F2; --card:#FFFFFF; --line:#E6E2E4; --tint:#F3EEF3;
-  --band:#4D0053; --bandink:#FFFFFF; --good:#2E7D1F; --warn:#9A6B00; --bad:#C2370F;
-  --head:"Poppins","Futura","Trebuchet MS",Arial,sans-serif;
-  --body:"Jost","Futura","Century Gothic",Arial,sans-serif;
+  /* One Konnector: One Blue, AI Purple, Growth Green, Electric Blue, Midnight Navy. Wright's: orange, gold. */
+  --purple:#146EF5; --blue:#7C3AED; --lime:#22C55E; --accent:#146EF5; --accent2:#3DA5FF;
+  --orange:#FF5021; --gold:#F6C101;
+  --ink:#0B1020; --muted:#5A6275; --bg:#F4F6FA; --card:#FFFFFF; --line:#E2E6EF; --tint:#EEF3FD;
+  --band:#0B1020; --bandink:#FFFFFF; --good:#15803D; --warn:#9A6B00; --bad:#C2370F;
+  --head:"Satoshi","Helvetica Neue",Arial,sans-serif;
+  --body:"Satoshi","Helvetica Neue",Arial,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --ink:#F3EEF3; --muted:#C9BFCB; --bg:#1c0f1e; --card:#2a1a2d; --line:#43304a; --tint:#35223a;
-  --band:#3a0040; --good:#9CD431; --warn:#F6C101; --bad:#FF7A52; --blue:#4DA3F0; color-scheme:dark}}
+  --ink:#EEF2FA; --muted:#A3ACBF; --bg:#0B1020; --card:#141B30; --line:#26304A; --tint:#18223D;
+  --band:#060A16; --good:#22C55E; --warn:#F6C101; --bad:#FF7A52; --purple:#3DA5FF; --blue:#A78BFA; --accent:#3DA5FF; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --ink:#F3EEF3; --muted:#C9BFCB; --bg:#1c0f1e; --card:#2a1a2d; --line:#43304a; --tint:#35223a;
-  --band:#3a0040; --good:#9CD431; --warn:#F6C101; --bad:#FF7A52; --blue:#4DA3F0; color-scheme:dark}
+  --ink:#EEF2FA; --muted:#A3ACBF; --bg:#0B1020; --card:#141B30; --line:#26304A; --tint:#18223D;
+  --band:#060A16; --good:#22C55E; --warn:#F6C101; --bad:#FF7A52; --purple:#3DA5FF; --blue:#A78BFA; --accent:#3DA5FF; color-scheme:dark}
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
 .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:1080px;margin:0 auto}
-header.band{background:var(--band);color:var(--bandink);padding-block:28px 26px;border-bottom:6px solid var(--orange)}
+header.band{background:var(--band);color:var(--bandink);padding-block:28px 26px;border-bottom:4px solid var(--orange)}
 .hrow{display:flex;gap:20px;align-items:center;flex-wrap:wrap}
 .logo{background:#fff;border-radius:10px;padding:8px 12px;flex:0 0 auto}
 .logo img{display:block;height:74px;width:auto}
 .htext{min-width:0;flex:1 1 300px}
-h1{font-family:var(--head);font-weight:800;font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.1;margin:0;text-wrap:balance}
+h1{font-family:var(--head);font-weight:900;font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.1;margin:0;text-wrap:balance}
 .meta{margin:6px 0 0;opacity:.85;font-size:.95rem}
 .ranges{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
 .ranges button{font:600 .9rem var(--body);border:1.5px solid rgba(255,255,255,.55);background:transparent;color:#fff;border-radius:999px;padding:5px 14px;cursor:pointer}
-.ranges button[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#231F20}
-.ranges button:focus-visible{outline:3px solid var(--lime);outline-offset:2px}
+.ranges button[aria-pressed="true"]{background:var(--accent2);border-color:var(--accent2);color:#0B1020}
+.ranges button:focus-visible{outline:3px solid var(--accent2);outline-offset:2px}
 main{padding-block:28px 56px}
 .kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
 .kpi .l{font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .kpi .n{font-family:var(--head);font-weight:800;font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;margin-top:6px;font-variant-numeric:tabular-nums}
 .kpi .s{font-size:.88rem;color:var(--muted);margin-top:2px}
-.kpi.key{border-top:4px solid var(--orange)}
-.alert{margin-top:22px;background:var(--tint);border-left:6px solid var(--orange);border-radius:8px;padding:16px 18px}
+.kpi.key{border-top:4px solid var(--accent)}
+.alert{margin-top:22px;background:var(--tint);border-left:6px solid var(--accent);border-radius:8px;padding:16px 18px}
 .alert h2{font-family:var(--head);font-size:1.1rem;margin:0 0 4px}
 .alert p{margin:0;max-width:75ch}
 section{margin-top:44px}
@@ -76,7 +77,7 @@ tr.total td{font-weight:600;background:var(--tint)}
 .next{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
 .next ol{margin:0;padding-left:1.3em}
 .next li{margin-bottom:10px}
-.next li::marker{color:var(--orange);font-weight:800}
+.next li::marker{color:var(--accent);font-weight:800}
 footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.86rem;max-width:90ch}
 @media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpis .kpi:first-child{grid-column:1/-1}.counts,.status{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:no-preference){.kpi .n{transition:opacity .2s}}
@@ -191,7 +192,7 @@ footer{margin-top:44px;padding-top:16px;border-top:1px solid var(--line);color:v
     </ol></div>
   </section>
 
-  <footer>Source: Google Ads account 440-731-8484, updated <span id="fUpd"></span>, data through <span id="fThru"></span>. "Sent to iClassPro sign-up" is the GMB_Clicked_iClassPro action; "Tracked purchases" is the iClassPro purchase action; "Party clicks" is the Book Party Click action. All counts use Google's all-conversions column, so they don't change when a goal is switched on or off. Fractional values are Google's data-driven attribution, rounded. Paused campaigns are included in totals.</footer>
+  <footer>Source: Google Ads account 440-731-8484, updated <span id="fUpd"></span>, data through <span id="fThru"></span>. "Sent to iClassPro sign-up" is the GMB_Clicked_iClassPro action; "Tracked purchases" is the iClassPro purchase action; "Party clicks" is the Book Party Click action. All counts use Google's all-conversions column, so they don't change when a goal is switched on or off. Fractional values are Google's data-driven attribution, rounded. Paused campaigns are included in totals. Prepared by One Konnector.</footer>
 
 </div></main>
 
