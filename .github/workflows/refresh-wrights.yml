@@ -40,5 +40,5 @@ jobs:
           else
             git commit -m "Wright's data refresh $(TZ=America/Phoenix date +%F)"
             git pull --rebase origin main
-            git push
+            for i in 1 2 3; do git pull --rebase -q && git push && exit 0; sleep 10; done; exit 1
           fi
